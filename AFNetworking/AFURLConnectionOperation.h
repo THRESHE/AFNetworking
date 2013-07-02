@@ -220,6 +220,8 @@ NSCoding, NSCopying>
 /// @name Initializing an AFURLConnectionOperation Object
 ///------------------------------------------------------
 
+- (id) init;
+
 /**
  Initializes and returns a newly allocated operation object with a url connection configured with the specified url request.
  

@@ -267,6 +267,30 @@ static BOOL AFSecKeyIsEqualToKey(SecKeyRef key1, SecKeyRef key2) {
 }
 #endif
 
+- (id)init
+{
+    self = [super init];
+    if (!self) {
+		return nil;
+    }
+
+    self.lock = [[NSRecursiveLock alloc] init];
+    self.lock.name = kAFNetworkingLockName;
+
+    self.runLoopModes = [NSSet setWithObject:NSRunLoopCommonModes];
+
+    self.shouldUseCredentialStorage = YES;
+
+    // #ifdef included for backwards-compatibility
+#ifdef _AFNETWORKING_ALLOW_INVALID_SSL_CERTIFICATES_
+    self.allowsInvalidSSLCertificate = YES;
+#endif
+
+    self.state = AFOperationReadyState;
+
+    return self;
+}
+
 - (id)initWithRequest:(NSURLRequest *)urlRequest {
     NSParameterAssert(urlRequest);
 
