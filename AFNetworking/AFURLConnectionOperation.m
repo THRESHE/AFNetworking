@@ -169,6 +169,27 @@ static inline BOOL AFStateTransitionIsValid(AFOperationState fromState, AFOperat
     return _networkRequestThread;
 }
 
+- (instancetype)init{
+
+    self = [super init];
+    if (!self) {
+		return nil;
+    }
+
+    self.lock = [[NSRecursiveLock alloc] init];
+    self.lock.name = kAFNetworkingLockName;
+
+    self.runLoopModes = [NSSet setWithObject:NSRunLoopCommonModes];
+
+    self.shouldUseCredentialStorage = YES;
+
+    self.state = AFOperationReadyState;
+
+    self.securityPolicy = [AFSecurityPolicy defaultPolicy];
+
+    return self;
+}
+
 - (instancetype)initWithRequest:(NSURLRequest *)urlRequest {
     NSParameterAssert(urlRequest);
 
